@@ -1,0 +1,7 @@
+server:
+  port: 19090
+
+spring:
+  application:
+    name: discovery
+

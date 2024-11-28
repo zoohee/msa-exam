@@ -45,4 +45,8 @@ public class Order {
                 .orderItems(products)
                 .build();
     }
+
+    public void updateOrderItems(ProductDto product) {
+        this.orderItems.add(product);
+    }
 }

@@ -30,5 +30,4 @@ public class BaseTimeEntity {
     @ColumnDefault("false")
     private Boolean isDeleted = false;
 
-
 }

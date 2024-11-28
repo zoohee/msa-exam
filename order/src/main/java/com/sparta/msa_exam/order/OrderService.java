@@ -5,6 +5,7 @@ import com.sparta.msa_exam.order.client.ProductDto;
 import com.sparta.msa_exam.order.dto.request.AddOrderRequest;
 import com.sparta.msa_exam.order.dto.request.AddProductToOrderRequest;
 import com.sparta.msa_exam.order.dto.response.AddOrderResponse;
+import com.sparta.msa_exam.order.dto.response.GetOrderResponse;
 import com.sparta.msa_exam.order.entity.Order;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +34,10 @@ public class OrderService {
         order.updateOrderItems(productDto);
         orderRepository.save(order);
         return AddOrderResponse.from(orderId);
+    }
+
+    public GetOrderResponse getOrder(Long orderId) {
+        Order order = orderRepository.getById(orderId);
+        return GetOrderResponse.from(order);
     }
 }

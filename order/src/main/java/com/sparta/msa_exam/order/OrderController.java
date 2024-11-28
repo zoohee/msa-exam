@@ -4,8 +4,10 @@ package com.sparta.msa_exam.order;
 import com.sparta.msa_exam.order.dto.request.AddOrderRequest;
 import com.sparta.msa_exam.order.dto.request.AddProductToOrderRequest;
 import com.sparta.msa_exam.order.dto.response.AddOrderResponse;
+import com.sparta.msa_exam.order.dto.response.GetOrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +32,11 @@ public class OrderController {
     public ResponseEntity<AddOrderResponse> addProductToOrder(@PathVariable Long orderId,
                                                               @RequestBody AddProductToOrderRequest request) {
         return ResponseEntity.ok(orderService.addProductToOrder(orderId, request));
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
 }

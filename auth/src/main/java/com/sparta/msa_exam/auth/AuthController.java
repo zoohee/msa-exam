@@ -1,5 +1,6 @@
 package com.sparta.msa_exam.auth;
 
+import com.sparta.msa_exam.auth.dto.request.SignInRequest;
 import com.sparta.msa_exam.auth.dto.request.SignUpRequest;
 import com.sparta.msa_exam.auth.dto.response.SignupResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<SignupResponse> signup(@RequestBody SignUpRequest request) {
         return ResponseEntity.ok(authService.signup(request));
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<SigninResponse> signin(@RequestBody SignInRequest request) {
+        return ResponseEntity.ok(authService.signin(request));
     }
 
 }

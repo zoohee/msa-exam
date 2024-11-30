@@ -5,9 +5,12 @@ import com.sparta.msa_exam.order.dto.request.AddOrderRequest;
 import com.sparta.msa_exam.order.dto.request.AddProductToOrderRequest;
 import com.sparta.msa_exam.order.dto.response.AddOrderResponse;
 import com.sparta.msa_exam.order.dto.response.GetOrderResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
+    @Value("${server.port}")
+    private String port;
+
     private final OrderService orderService;
+
+    @ModelAttribute
+    public void setResponseHeader(HttpServletResponse response) {
+        response.setHeader("Server-Port", port);
+    }
 
     @PostMapping()
     public ResponseEntity<AddOrderResponse> addOrder(@RequestBody AddOrderRequest request) {

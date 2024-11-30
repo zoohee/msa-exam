@@ -2,5 +2,36 @@ server:
   port: 19091
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/orders/**
+        - id: product-70
+          uri: http://localhost:19093
+          predicates:
+            - Path=/products/**
+            - Weight=product-group, 7  # 가중치 70%
+        - id: product-30
+          uri: http://localhost:19094
+          predicates:
+            - Path=/products/**
+            - Weight=product-group, 3  # 가중치 30%
+        - id: auth
+          uri: lb://auth
+          predicates:
+            - Path=/auth/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/

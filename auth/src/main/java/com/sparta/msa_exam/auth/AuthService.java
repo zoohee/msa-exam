@@ -25,7 +25,7 @@ public class AuthService {
 
     public SigninResponse signin(SignInRequest request) {
         User user = userRepository.getByUsernameAndPassword(request.username(), request.password());
-        String accessToken = jwtUtil.createAccessToken(user.getUsername());
+        String accessToken = jwtUtil.createAccessToken(user);
         tokenRepository.save(RedisTokenDto.create(user.getUsername(), accessToken));
         return SigninResponse.of(user, accessToken);
     }

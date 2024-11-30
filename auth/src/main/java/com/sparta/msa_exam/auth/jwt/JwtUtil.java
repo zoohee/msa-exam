@@ -1,6 +1,8 @@
 package com.sparta.msa_exam.auth.jwt;
 
+import com.sparta.msa_exam.auth.entity.User;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
@@ -22,14 +24,14 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
     }
 
-    public String createAccessToken(String user_id) {
+    public String createAccessToken(User user) {
         return Jwts.builder()
-                .claim("user_id", user_id)
-                .claim("role", "ADMIN")
+                .claim("username", user.getUsername())
+                .claim("role", user.getRole().toString())
                 .issuer(issuer)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + accessExpiration))
-                .signWith(secretKey, io.jsonwebtoken.SignatureAlgorithm.HS512)
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 }

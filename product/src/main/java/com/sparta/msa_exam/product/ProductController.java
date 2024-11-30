@@ -6,6 +6,7 @@ import com.sparta.msa_exam.product.dto.response.GetProductResponse;
 import com.sparta.msa_exam.product.dto.response.GetProductsResponse;
 import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+    @Value("${server.port}")
+    private String port;
 
     private final ProductService productService;
 
@@ -34,5 +38,10 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<GetProductResponse> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProduct(id));
+    }
+
+    @GetMapping("/health-check")
+    public String getHealthCheck() {
+        return "Server port: " + port;
     }
 }

@@ -16,7 +16,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     public AddProductResponse addProduct(AddProductRequest request) {
-        Product product = productRepository.save(Product.create(request));
+        Product product = productRepository.save(Product.create(request.name(), request.supplyPrice()));
         return AddProductResponse.from(product);
     }
 

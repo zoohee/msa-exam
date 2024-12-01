@@ -32,12 +32,12 @@ public class Product extends BaseTimeEntity {
     private Long id;
     private String name;
     private Integer supplyPrice;
-
+    
     @Builder
-    public static Product create(AddProductRequest request) {
+    public static Product create(String name, Integer supplyPrice) {
         return Product.builder()
-                .name(request.name())
-                .supplyPrice(request.supplyPrice())
+                .name(name)
+                .supplyPrice(supplyPrice)
                 .build();
     }
 }

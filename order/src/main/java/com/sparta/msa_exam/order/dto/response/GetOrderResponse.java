@@ -2,13 +2,14 @@ package com.sparta.msa_exam.order.dto.response;
 
 import com.sparta.msa_exam.order.client.ProductDto;
 import com.sparta.msa_exam.order.entity.Order;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record GetOrderResponse(
+public record GetOrderResponse (
         Long orderId,
         List<Long> productIds
-) {
+) implements Serializable {
     public static GetOrderResponse from(Order order) {
         List<Long> productIds = order.getOrderItems().stream()
                 .map(ProductDto::getProductId)

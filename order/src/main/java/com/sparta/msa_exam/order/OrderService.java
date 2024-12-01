@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +37,7 @@ public class OrderService {
         return AddOrderResponse.from(orderId);
     }
 
+    @Cacheable(cacheNames = "getOrderCache", key = "args[0]")
     public GetOrderResponse getOrder(Long orderId) {
         Order order = orderRepository.getById(orderId);
         return GetOrderResponse.from(order);

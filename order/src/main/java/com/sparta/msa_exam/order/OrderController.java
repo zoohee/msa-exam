@@ -34,7 +34,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<AddOrderResponse> addOrder(@RequestBody AddOrderRequest request) {
+    public ResponseEntity<GetOrderResponse> addOrder(@RequestBody AddOrderRequest request) {
 
         return ResponseEntity.ok(orderService.addOrder(request));
     }

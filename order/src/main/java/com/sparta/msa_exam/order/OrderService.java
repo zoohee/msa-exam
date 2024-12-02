@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
 
-    public AddOrderResponse addOrder(AddOrderRequest request) {
+    @CachePut(cacheNames = "orderCache", key = "#result.orderId")
+    public GetOrderResponse addOrder(AddOrderRequest request) {
         List<ProductDto> products = request.productIds().stream()
                 .map(productClient::getProduct)
                 .collect(Collectors.toList());
         Order order = orderRepository.save(Order.create(products));
-        return AddOrderResponse.from(order.getId());
+        return GetOrderResponse.from(order);
     }
 
     public AddOrderResponse addProductToOrder(Long orderId, AddProductToOrderRequest request) {
@@ -37,7 +39,7 @@ public class OrderService {
         return AddOrderResponse.from(orderId);
     }
 
-    @Cacheable(cacheNames = "getOrderCache", key = "args[0]")
+    @Cacheable(cacheNames = "orderCache", key = "args[0]")
     public GetOrderResponse getOrder(Long orderId) {
         Order order = orderRepository.getById(orderId);
         return GetOrderResponse.from(order);
